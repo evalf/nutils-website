@@ -1,0 +1,22 @@
+name: Lid-driven cavity with compatible spaces
+authors:
+  - Evalf
+description: |
+  In this script we solve the lid driven cavity problem for stationary Stokes
+  and Navier-Stokes flow. That is, a unit square domain, with no-slip left,
+  bottom and right boundaries and a top boundary that is moving at unit
+  velocity in positive x-direction.
+
+  The script is identical to [example:official-drivencavity] except that it
+  uses the Raviart-Thomas discretization providing compatible velocity and
+  pressure spaces resulting in a pointwise divergence-free velocity field.
+repository: https://github.com/evalf/nutils.git
+branch: release/6
+script: examples/drivencavity-compatible.py
+images:
+  - flow.png
+tags:
+  - official
+  - Stokes
+  - Navier-Stokes
+  - compatible spaces

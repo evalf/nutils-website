@@ -1,0 +1,18 @@
+name: Finite strain
+authors:
+  - Evalf
+description: |
+  In this script we solve the nonlinear Saint Venant-Kichhoff problem on a unit
+  square domain (optionally with a circular cutout), clamped at both the left
+  and right boundary in such a way that an arc is formed over a specified
+  angle. The configuration is constructed such that a symmetric solution is
+  expected.
+repository: https://github.com/evalf/nutils.git
+branch: release/6
+script: examples/finitestrain.py
+images:
+  - nonlinear.png
+  - linear.png
+tags:
+  - official
+  - finite strain

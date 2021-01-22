@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="../style.css"/>
+  </head>
+  <body>
+    {{#each this}}
+      <a class="example" href="{{href}}">
+        <div class="name">{{name}}</div>
+        {{#if thumbnail~}}
+          <img class="thumbnail" src="{{thumbnail}}"/>
+        {{~else~}}
+          <div class="thumbnail"></div>
+        {{~/if}}
+        <div class="tags">
+          {{#each tags}}<div>{{this}}</div>{{/each}}
+        </div>
+      </a>
+    {{/each}}
+  </body>
+</html>
