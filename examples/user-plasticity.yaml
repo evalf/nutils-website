@@ -1,0 +1,17 @@
+name: Plastic deformation of a perforated strip
+authors:
+  - Clemens Verhoosel
+description: |
+  This example considers the plastic deformation of a perforated strip. More
+  information regarding this prototypical nonlinear solid mechanics problem
+  can be found in, for example, "The Finite Element Method for Solid and
+  Structural Mechanics" by Zienkiewicz and Taylor.
+repository: https://github.com/CVerhoosel/nutils-plasticity.git
+branch: release/6
+script: plasticity.py
+images:
+  - stress.png
+tags:
+  - user
+  - solid mechanics
+  - plasticity
