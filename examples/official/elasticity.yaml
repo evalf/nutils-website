@@ -1,17 +1,13 @@
 name: Linear elasticity
-authors:
-  - Evalf
 description: |
   In this script we solve the [linear elasticity] problem on a unit square
   domain, clamped at the left boundary, and stretched at the right boundary
   while keeping vertical displacements free.
 
   [linear elasticity]: https://en.wikipedia.org/wiki/Linear_elasticity
-repository: https://github.com/evalf/nutils.git
 branch: release/6
 script: examples/elasticity.py
 images:
   - shear.png
 tags:
-  - official
   - linear elasticity

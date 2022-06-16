@@ -1,6 +1,4 @@
 name: Adaptivity
-authors:
-  - Evalf
 description: |
   In this script we solve the Laplace problem on a unit square that has the
   bottom-right quadrant removed (a.k.a. an L-shaped domain) with Dirichlet
@@ -13,12 +11,10 @@ description: |
   suboptimally under uniform refinement due to a singular gradient in the
   reentrant corner. This script demonstrates that optimal convergence can be
   restored by using adaptive refinement.
-repository: https://github.com/evalf/nutils.git
 branch: release/6
 script: examples/adaptivity.py
 images:
   - sol.png
   - err.png
 tags:
-  - official
   - adaptive refinements

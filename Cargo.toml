@@ -2,7 +2,7 @@
 name = "nutils-website"
 version = "0.1.0"
 authors = ["Evalf <info@evalf.com>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]
 regex = "1.4"

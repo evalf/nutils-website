@@ -1,6 +1,4 @@
 name: Plate with hole
-authors:
-  - Evalf
 description: |
   In this script we solve the linear plane strain elasticity problem for an
   infinite plate with a circular hole under tension. We do this by placing the
@@ -8,12 +6,10 @@ description: |
   left and bottom, and Dirichlet conditions constraining the displacements to
   the analytical solution to the right and top. The traction-free circle is
   removed by means of the Finite Cell Method (FCM).
-repository: https://github.com/evalf/nutils.git
 branch: release/6
 script: examples/platewithhole.py
 images:
   - stressxx.png
 tags:
-  - official
   - elasticity
   - FCM

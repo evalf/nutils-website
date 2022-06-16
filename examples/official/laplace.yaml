@@ -1,6 +1,4 @@
 name: Laplace's equation
-authors:
-  - Evalf
 description: |
   In this script we solve Laplace's equation \\(u_{,kk} = 0\\) on a unit
   square domain \\(Ω\\) with boundary \\(Γ\\), subject to boundary
@@ -20,11 +18,9 @@ description: |
   \\[ u_{\rm exact} = \sin(x_0) \cosh(x_1). \\]
 
   [Laplace's equation]: https://en.wikipedia.org/wiki/Laplace%27s_equation
-repository: https://github.com/evalf/nutils.git
 branch: release/6
 script: examples/laplace.py
 images:
   - solution.png
 tags:
-  - official
   - Laplace

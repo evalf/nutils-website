@@ -1,6 +1,4 @@
 name: Plate with hole using nurbs
-authors:
-  - Evalf
 description: |
   In this script we solve the same infinite plane strain problem as in
   [example:official-platewithhole], but instead of using FCM to create the hole
@@ -8,12 +6,10 @@ description: |
   found in Hughes et al., `Isogeometric analysis: CAD, finite elements, NURBS,
   exact geometry and mesh refinement`, Computer Methods in Applied Mechanics
   and Engineering, Elsevier, 2005, 194, 4135-4195.
-repository: https://github.com/evalf/nutils.git
 branch: release/6
 script: examples/platewithhole-nurbs.py
 images:
   - stressxx.png
 tags:
-  - official
   - elasticity
   - NURBS
