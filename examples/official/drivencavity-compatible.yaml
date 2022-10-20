@@ -8,7 +8,6 @@ description: |
   The script is identical to [example:official-drivencavity] except that it
   uses the Raviart-Thomas discretization providing compatible velocity and
   pressure spaces resulting in a pointwise divergence-free velocity field.
-branch: release/6
 script: examples/drivencavity-compatible.py
 images:
   - flow.png

@@ -4,7 +4,6 @@ description: |
   and Navier-Stokes flow. That is, a unit square domain, with no-slip left,
   bottom and right boundaries and a top boundary that is moving at unit
   velocity in positive x-direction.
-branch: release/6
 script: examples/drivencavity.py
 images:
   - flow.png

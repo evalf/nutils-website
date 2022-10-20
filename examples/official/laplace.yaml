@@ -18,7 +18,6 @@ description: |
   \\[ u_{\rm exact} = \sin(x_0) \cosh(x_1). \\]
 
   [Laplace's equation]: https://en.wikipedia.org/wiki/Laplace%27s_equation
-branch: release/6
 script: examples/laplace.py
 images:
   - solution.png

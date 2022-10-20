@@ -11,7 +11,6 @@ use std::process::{Command, Stdio};
 struct OfficialExampleMetadata {
     name: String,
     description: String,
-    branch: String,
     script: String,
     tags: Vec<String>,
     images: Vec<String>,
@@ -318,7 +317,6 @@ fn examples() -> impl Iterator<Item = (String, ExampleMetadata)> {
             let OfficialExampleMetadata {
                 name,
                 description,
-                branch,
                 script,
                 mut tags,
                 images,
@@ -331,7 +329,7 @@ fn examples() -> impl Iterator<Item = (String, ExampleMetadata)> {
                 authors,
                 description,
                 repository,
-                commit: branch,
+                commit: "release/7".to_owned(),
                 script,
                 tags,
                 images,

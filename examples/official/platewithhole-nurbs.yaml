@@ -6,7 +6,6 @@ description: |
   found in Hughes et al., `Isogeometric analysis: CAD, finite elements, NURBS,
   exact geometry and mesh refinement`, Computer Methods in Applied Mechanics
   and Engineering, Elsevier, 2005, 194, 4135-4195.
-branch: release/6
 script: examples/platewithhole-nurbs.py
 images:
   - stressxx.png

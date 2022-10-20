@@ -5,7 +5,6 @@ description: |
   while keeping vertical displacements free.
 
   [linear elasticity]: https://en.wikipedia.org/wiki/Linear_elasticity
-branch: release/6
 script: examples/elasticity.py
 images:
   - shear.png
