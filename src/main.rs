@@ -128,7 +128,7 @@ fn update_examples() {
       {
         return (id, ExampleStatus::FetchFailed);
       }
-      let stable = run_script_in_container(&metadata, "6", &git_dir, &log_dir);
+      let stable = run_script_in_container(&metadata, "7", &git_dir, &log_dir);
       rename_if_exists(log_dir.join("log.html"), log_dir.join("stable.html")).unwrap();
       let master = run_script_in_container(&metadata, "latest", &git_dir, &log_dir);
       rename_if_exists(log_dir.join("log.html"), log_dir.join("master.html")).unwrap();
