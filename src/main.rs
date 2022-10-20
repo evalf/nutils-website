@@ -116,7 +116,7 @@ fn update_examples() {
 
     let statuses: HashMap<String, ExampleStatus> = examples()
     .map(|(id, metadata)| {
-      let log_dir = Path::new("target/website/examples").join(&id);
+      let log_dir = Path::new("target/website").join(&id);
       fs::create_dir_all(&log_dir).unwrap();
       remove_file_if_exists(log_dir.join("log.html")).unwrap();
       remove_file_if_exists(log_dir.join("stable.html")).unwrap();
@@ -233,7 +233,7 @@ fn build_website() {
     let reader = BufReader::new(File::open("target/examples-statuses.json").unwrap());
     let statuses: HashMap<String, ExampleStatus> =
         serde_json::from_reader(reader).expect("failed to read examples statuses");
-    fs::create_dir_all("target/website/examples").unwrap();
+    fs::create_dir_all("target/website").unwrap();
 
     let mut handlebars = Handlebars::new();
     handlebars.set_strict_mode(true);
@@ -247,7 +247,7 @@ fn build_website() {
     let mut examples_list = Vec::new();
 
     for (id, metadata) in examples() {
-        let dir = Path::new("target/website/examples").join(&id);
+        let dir = Path::new("target/website").join(&id);
         let log = dir.join("stable.html");
         let images: Vec<String> = metadata
             .images
@@ -298,7 +298,7 @@ fn build_website() {
     examples_list.sort_by_cached_key(|item| item.name.to_string());
 
     let examples_list_writer =
-        BufWriter::new(File::create("target/website/examples/index.html").unwrap());
+        BufWriter::new(File::create("target/website/index.html").unwrap());
     handlebars
         .render_to_write("examples-list", &examples_list, examples_list_writer)
         .unwrap();
