@@ -228,6 +228,8 @@ fn build_website() {
         href: String,
     }
 
+    let re_github = Regex::new(r"^https://github\.com/([^/]+/[^/]+).git$").unwrap();
+
     let reader = BufReader::new(File::open("target/examples-statuses.json").unwrap());
     let statuses: HashMap<String, ExampleStatus> =
         serde_json::from_reader(reader).expect("failed to read examples statuses");
@@ -269,6 +271,12 @@ fn build_website() {
             href: format!("{}/", id),
         });
 
+        let script_url = if let Some(cap) = re_github.captures(&metadata.repository) {
+            format!("https://github.com/{}/blob/{}/{}", &cap[1], metadata.commit, metadata.script)
+        } else {
+            panic!("unsupported repository");
+        };
+
         let context = ExampleContext {
             name: metadata.name.to_string(),
             authors: comma_and_join(&metadata.authors),
@@ -278,10 +286,7 @@ fn build_website() {
             script: metadata.script.to_string(),
             repository: metadata.repository.to_string(),
             commit: metadata.commit.to_string(),
-            script_url: format!(
-                "https://github.com/evalf/nutils/blob/{}/{}",
-                metadata.commit, metadata.script
-            ),
+            script_url,
         };
 
         let example_writer = BufWriter::new(File::create(dir.join("index.html")).unwrap());
