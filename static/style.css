@@ -1,0 +1,64 @@
+html {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  color: hsl(0, 0%, 20%);
+}
+
+body {
+  margin: 25px;
+  padding: 0px;
+}
+
+body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 280px);
+  gap: 20px;
+  background: hsl(0, 0%, 90%);
+  justify-content: center;
+}
+
+body .example {
+  display: grid;
+  grid-template-columns: 280px;
+  grid-template-rows: 50px 210px 70px;
+  background: hsl(0, 0%, 100%);
+  border-radius: 15px;
+  text-decoration: inherit;
+  color: inherit;
+}
+
+body .example .thumbnail {
+  width: 280px;
+  height: 210px;
+  object-fit: contain;
+  display: block;
+}
+
+body .example .name {
+  display: grid;
+  align-items: center;
+  padding: 0px 10px;
+  background: hsl(0, 0%, 80%);
+  border-radius: 15px 15px 0px 0px;
+  text-align: center;
+}
+
+body .example .tags {
+  font-family: 'Source Sans Pro', monospace;
+  font-size: 75%;
+  background: hsl(0, 0%, 30%);
+  color: hsl(0, 0%, 100%);
+  border-radius: 0px 0px 15px 15px;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+}
+
+body .example .tags div {
+  white-space: pre;
+  border: 1px solid hsl(0, 0%, 100%);
+  padding: 2px 4px;
+  margin: 2px;
+  border-radius: 2px;
+}

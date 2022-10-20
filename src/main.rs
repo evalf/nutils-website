@@ -302,6 +302,14 @@ fn build_website() {
     handlebars
         .render_to_write("examples-list", &examples_list, examples_list_writer)
         .unwrap();
+
+    let target = Path::new("target/website");
+    for entry in fs::read_dir("static").expect("failed to list the contents of dir 'static'") {
+        let entry = entry.expect("failed to list the contents of dir 'static'");
+        if entry.file_type().unwrap().is_file() {
+            fs::copy(entry.path(), target.join(entry.file_name())).expect("failed to copy {entry:?}");
+        }
+    }
 }
 
 fn examples() -> impl Iterator<Item = (String, ExampleMetadata)> {
