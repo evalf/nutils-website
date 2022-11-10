@@ -9,7 +9,7 @@ description: |
   As the resulting temperature - a homogeneous field - is known, the temperature
   equation does not need to be solved. 
   More information regarding the theory of elasticity and thermoelasticity 
-  can be found in, for example, ["Elasticity - Therory, Application and 
+  can be found in, for example, ["Elasticity - Theory, Applications and 
   Numerics" by M. Sadd][Sadd2014]
 
   [Sadd2014]: https://doi.org/10.1016/C2012-0-06981-5
@@ -18,7 +18,6 @@ commit: 8dac5338ca03b2d61145f1261144346e1d5d14ea
 script: thermoelastic-example.py
 images:
   - displacement.png
-  - deformed_cylinder.vtk
 tags:
   - solid mechanics
   - NURBS
