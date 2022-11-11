@@ -3,21 +3,35 @@
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="icon" href="nutils.svg"/>
     <link rel="stylesheet" href="style.css"/>
   </head>
   <body>
-    {{#each this}}
-      <a class="example" href="{{href}}">
-        <div class="name">{{name}}</div>
-        {{#if thumbnail~}}
-          <img class="thumbnail" src="{{thumbnail}}"/>
-        {{~else~}}
-          <div class="thumbnail"></div>
-        {{~/if}}
-        <div class="tags">
-          {{#each tags}}<div>{{this}}</div>{{/each}}
-        </div>
+    <div id="header">
+      <a href="https://nutils.org/">
+        <svg class="logo" viewBox='-8 -8 16 16'>
+          <path d='M -7 -2 a 5 5 0 0 1 +10 0 v +4 a 1 1 0 0 1 -2 0 v -4 a 3 3 0 0 0 -6 0 v +4 a 1 1 0 0 1 -2 0 Z'/>
+          <path d='M +7 +2 a 5 5 0 0 1 -10 0 v -4 a 1 1 0 0 1 +2 0 v +4 a 3 3 0 0 0 +6 0 v -4 a 1 1 0 0 1 +2 0 Z'/>
+        </svg>
       </a>
-    {{/each}}
+      <a href="https://nutils.org/">Nutils</a>
+      <div>/</div>
+      <div>Examples</div>
+    </div>
+    <div id="examples">
+      {{#each this}}
+        <a class="example" href="{{href}}">
+          <div class="name">{{name}}</div>
+          {{#if thumbnail~}}
+            <img class="thumbnail" src="{{thumbnail}}"/>
+          {{~else~}}
+            <div class="thumbnail"></div>
+          {{~/if}}
+          <div class="tags">
+            {{#each tags}}<div>{{this}}</div>{{/each}}
+          </div>
+        </a>
+      {{/each}}
+    </div>
   </body>
 </html>
