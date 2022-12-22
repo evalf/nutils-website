@@ -1,7 +1,8 @@
 name: Regularization algorithm for a locally refined mesh
 authors:
   - Clemens Verhoosel
-  - Robbin Willems
+  - Robin Willems
+  - Gertjan van Zwieten
 description: |
   This example demonstrates a prototypical mesh regularization algorithm for
   hierarchical meshes. Although this algorithm is conceptually straightforward,
@@ -9,7 +10,7 @@ description: |
   particular the transformations that are used to identify elements). This
   example also aims to demonstrate how to use these data structures.
 repository: https://github.com/CVerhoosel/nutils-hierarchical-mesh-regularization.git
-commit: 265edcd29fc19c84ef46bd5d02e22f0dd786010c
+commit: 9a988011c64482155dee85421d08baa72378d728
 script: hierarichal-mesh-regularization.py
 images:
   - regularized.png
