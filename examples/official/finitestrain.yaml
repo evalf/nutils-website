@@ -8,7 +8,7 @@ description: |
 branch: release/6
 script: examples/finitestrain.py
 images:
-  - nonlinear.png
   - linear.png
+  - nonlinear.png
 tags:
   - finite strain
