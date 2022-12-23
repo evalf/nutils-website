@@ -262,7 +262,7 @@ fn build_website() {
 
         examples_list.push(ExampleListContext {
             name: metadata.name.to_string(),
-            thumbnail: if let Some(image) = images.iter().next() {
+            thumbnail: if let Some(image) = images.iter().last() {
                 Some(format!("{}/{}", id, image))
             } else {
                 None

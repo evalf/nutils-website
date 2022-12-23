@@ -13,7 +13,7 @@ description: |
   restored by using adaptive refinement.
 script: examples/adaptivity.py
 images:
-  - sol.png
   - err.png
+  - sol.png
 tags:
   - adaptive refinements
