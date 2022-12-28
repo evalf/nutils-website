@@ -1,0 +1,23 @@
+name: Immersed analysis of a non-lifting potential flow over a cylinder
+authors:
+  - Clemens Verhoosel
+  - Sai Divi
+description: |
+  This example demonstrates the immersed (isogeometric) finite element method
+  for the simulation of a two-dimensional non-lifting potential flow over a
+  cylinder. A rectangular ambient domain of size L×L is considered, from which
+  a circle of radius R is trimmed, resulting in the physical domain Ω. Neumann
+  conditions are imposed on all boundaries in accordance with the exact
+  solution. A zero-average potential constraint is added using a Lagrange
+  multiplier to yield the (well-posed) boundary value problem.
+repository: https://github.com/CVerhoosel/nutils-immersed-potential-flow.git
+commit: 4b3b70129cc4a07a74b879e85d18a3985217d61a
+script: immersed_potential_flow.py
+images:
+  - velocity.png
+tags:
+  - immersed analysis
+  - potential flow
+  - trimming
+  - lagrange multiplier
+  - transformation-based topology
