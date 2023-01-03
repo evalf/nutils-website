@@ -9,7 +9,7 @@ description: |
   a circle of radius R is trimmed, resulting in the physical domain Ω. Neumann
   conditions are imposed on all boundaries in accordance with the exact
   solution. A zero-average potential constraint is added using a Lagrange
-  multiplier to yield the (well-posed) boundary value problem:
+  multiplier to yield the (well-posed) boundary value problem.
 repository: https://github.com/CVerhoosel/nutils-immersed-potential-flow.git
 commit: 4b3b70129cc4a07a74b879e85d18a3985217d61a
 script: immersed_potential_flow.py
