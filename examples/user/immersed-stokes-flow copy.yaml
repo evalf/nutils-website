@@ -1,0 +1,20 @@
+name: Immersed analysis of a Stokes flow through a porous medium
+authors:
+  - Clemens Verhoosel
+  - Sai Divi
+description: |
+  This example demonstrates the skeleton-stabilized immersogeometric simulation
+  of a Stokes flow through a porous medium. Details can be found in
+  [this review] (https://doi.org/10.48550/arXiv.2208.14994).
+repository: https://github.com/CVerhoosel/nutils-immersed-stokes-flow.git
+commit: 614205a23d0025fc73ad97804fb0c110de962b89
+script: immersed-stokes-flow.py
+images:
+  - pressure.png
+tags:
+  - immersed analysis
+  - stokes flow
+  - trimming
+  - ghost stabilization
+  - transformation-based topology
+  - vtk plotting
