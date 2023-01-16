@@ -1,0 +1,19 @@
+name: Non-linear Kirchhoff-Love shell
+authors:
+  - Sai C. Divi
+  - Stein K. F. Stoter
+description: |
+  Non-linear Kirchhoff-Love shell implementation with B-spline basis functions, 
+  benchmarked agains the isotropic hinged cylindrical roof as documented in: 
+  ["Popular benchmark problems for geometric nonlinear analysis of shells" by
+  K. Y. Sze et al.][Sze2004]
+
+  [Sze2004]: https://doi.org/10.1016/j.finel.2003.11.001
+repository: https://gitlab.com/Stein.Stoter/kirchhoff-love-shell.git
+commit: ee2faa912570317e267a22a3c963bbff29fb4a6e
+script: KL-shell.py
+images:
+  - load_path.png
+tags:
+  - solid mechanics
+  - shell
