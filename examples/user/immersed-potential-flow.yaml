@@ -11,7 +11,7 @@ description: |
   solution. A zero-average potential constraint is added using a Lagrange
   multiplier to yield the (well-posed) boundary value problem.
 repository: https://github.com/CVerhoosel/nutils-immersed-potential-flow.git
-commit: 4b3b70129cc4a07a74b879e85d18a3985217d61a
+commit: 31d0a31843751ce33927efefcc81153ac3bb9cc7
 script: immersed_potential_flow.py
 images:
   - velocity.png
