@@ -7,7 +7,7 @@ description: |
   of a Stokes flow through a porous medium. Details can be found in
   [this review] (https://doi.org/10.48550/arXiv.2208.14994).
 repository: https://github.com/CVerhoosel/nutils-immersed-stokes-flow.git
-commit: 614205a23d0025fc73ad97804fb0c110de962b89
+commit: e31c0478b78ead9570755bbd2bc6815e2df560db
 script: immersed-stokes-flow.py
 images:
   - pressure.png
