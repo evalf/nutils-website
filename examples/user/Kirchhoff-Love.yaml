@@ -10,7 +10,7 @@ description: |
 
   [Sze2004]: https://doi.org/10.1016/j.finel.2003.11.001
 repository: https://gitlab.com/Stein.Stoter/kirchhoff-love-shell.git
-commit: ee2faa912570317e267a22a3c963bbff29fb4a6e
+commit: 873d9ac538dd60ee402e770300ce102912a72176
 script: KL-shell.py
 images:
   - load_path.png
