@@ -1,0 +1,16 @@
+name: Script to convert an image file into an immersed mesh
+authors:
+  - Clemens Verhoosel
+description: |
+  This example demonstrates how to construct an immersed (isogeometric) finite
+  element mesh directly from a two-dimensional image file.
+repository: https://github.com/CVerhoosel/nutils-picture-mesh.git
+commit: 252cc6798a6a4b69ecd8cf367a7070f8958fd806
+script: picture-mesh.py
+images:
+  - original.png
+  - mesh.png
+tags:
+  - trimming
+  - splines
+  - sample basis
