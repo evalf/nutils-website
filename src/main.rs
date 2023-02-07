@@ -116,6 +116,7 @@ fn update_examples() {
 
     let statuses: HashMap<String, ExampleStatus> = examples()
     .map(|(id, metadata)| {
+      println!("Processing {}", id);
       let log_dir = Path::new("target/website").join(&id);
       fs::create_dir_all(&log_dir).unwrap();
       remove_file_if_exists(log_dir.join("log.html")).unwrap();
