@@ -14,6 +14,7 @@ struct OfficialExampleMetadata {
     script: String,
     tags: Vec<String>,
     images: Vec<String>,
+    image_index: Option<usize>,
 }
 
 #[derive(Deserialize)]
@@ -26,6 +27,7 @@ struct ExampleMetadata {
     script: String,
     tags: Vec<String>,
     images: Vec<String>,
+    image_index: Option<usize>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -181,7 +183,11 @@ fn rename_if_exists(src: impl AsRef<Path>, dst: impl AsRef<Path>) -> std::io::Re
     }
 }
 
-fn get_last_image_by_name(log_path: impl AsRef<Path>, name: &str) -> Option<String> {
+fn get_image_by_name_and_index(
+    log_path: impl AsRef<Path>,
+    name: &str,
+    index: Option<usize>,
+) -> Option<String> {
     let log_path = log_path.as_ref();
     if !log_path.exists() {
         return None;
@@ -193,10 +199,14 @@ fn get_last_image_by_name(log_path: impl AsRef<Path>, name: &str) -> Option<Stri
         name = escape(name)
     ))
     .unwrap();
-    BufReader::new(File::open(log_path).unwrap())
+    let mut images = BufReader::new(File::open(log_path).unwrap())
         .lines()
-        .filter_map(|line| Some(re.captures(&line.unwrap())?[1].to_string()))
-        .last()
+        .filter_map(|line| Some(re.captures(&line.unwrap())?[1].to_string()));
+    if let Some(n) = index {
+        images.nth(n)
+    } else {
+        images.last()
+    }
 }
 
 fn build_website() {
@@ -250,7 +260,9 @@ fn build_website() {
             .filter_map(|name| {
                 ["stable.html", "master.html"]
                     .iter()
-                    .filter_map(|log| get_last_image_by_name(&dir.join(log), name))
+                    .filter_map(|log| {
+                        get_image_by_name_and_index(&dir.join(log), name, metadata.image_index)
+                    })
                     .next()
             })
             .collect();
@@ -331,6 +343,7 @@ fn examples() -> impl Iterator<Item = (String, ExampleMetadata)> {
                 script,
                 mut tags,
                 images,
+                image_index,
             } = serde_yaml::from_reader(metadata_file).expect("failed to parse example metadata");
             tags.push("official".to_string());
             let authors = vec!["Evalf".to_string(), "other Nutils contributors".to_string()];
@@ -344,6 +357,7 @@ fn examples() -> impl Iterator<Item = (String, ExampleMetadata)> {
                 script,
                 tags,
                 images,
+                image_index,
             };
             (format!("official-{}", id), metadata)
         });
