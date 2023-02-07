@@ -1,4 +1,4 @@
-use regex::Regex;
+use regex::{escape, Regex};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::ffi::{OsStr, OsString};
@@ -186,23 +186,17 @@ fn get_last_image_by_name(log_path: impl AsRef<Path>, name: &str) -> Option<Stri
     if !log_path.exists() {
         return None;
     }
-    let re = Regex::new(
+    let re = Regex::new(&format!(
         "^<div class=\"item\" data-loglevel=\"2\">\
-        <a href=\"([0-9a-f]+.(?:png|jpg))\" download=\"[^\"<>]*\">\
-          ([^\"<>]*)\
-        </a>\
-      </div>$",
-    )
+        <a href=\"([0-9a-f]+.(?:png|jpg))\" download=\"{name}\">{name}</a>\
+        </div>$",
+        name = escape(name)
+    ))
     .unwrap();
-    let mut file_name: Option<String> = None;
-    for line in BufReader::new(File::open(log_path).unwrap()).lines() {
-        if let Some(captures) = re.captures(&line.unwrap()) {
-            if &captures[2] == name {
-                file_name = Some(captures[1].to_string());
-            }
-        }
-    }
-    file_name
+    BufReader::new(File::open(log_path).unwrap())
+        .lines()
+        .filter_map(|line| Some(re.captures(&line.unwrap())?[1].to_string()))
+        .last()
 }
 
 fn build_website() {
