@@ -9,7 +9,7 @@ description: |
   .msh file and solve Laplace's equation by applying boundary conditions on 
   the prescribed boundary tags in nutils.
 repository: https://github.com/scdivi/nutils-gmsh
-commit: 15a330719be18372a6611bfab911b21eb9e8fff2
+commit: 29d73e18e752fcf24dbc49690032b5d7ea62df74
 script: annulus.py
 images:
   - solution.png
