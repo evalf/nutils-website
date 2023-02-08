@@ -1,0 +1,16 @@
+name: Laplace's equation (gmsh)
+authors:
+  - Sai C. Divi
+  - Clemens V. Verhoosel
+description: |
+  This example shows importing mesh from a gmsh file (with boundary tags) in nutils.
+  We show this by solving a Laplace's equation on a quarter annulus. 
+repository: https://github.com/scdivi/nutils-gmsh
+commit: 15a330719be18372a6611bfab911b21eb9e8fff2
+script: annulus.py
+images:
+  - solution.png
+  - error.png
+tags:
+  - gmsh
+  - Laplace
