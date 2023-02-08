@@ -1,4 +1,4 @@
-use regex::Regex;
+use regex::{escape, Regex};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::ffi::{OsStr, OsString};
@@ -14,6 +14,7 @@ struct OfficialExampleMetadata {
     script: String,
     tags: Vec<String>,
     images: Vec<String>,
+    image_index: Option<usize>,
 }
 
 #[derive(Deserialize)]
@@ -26,6 +27,7 @@ struct ExampleMetadata {
     script: String,
     tags: Vec<String>,
     images: Vec<String>,
+    image_index: Option<usize>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -116,6 +118,7 @@ fn update_examples() {
 
     let statuses: HashMap<String, ExampleStatus> = examples()
     .map(|(id, metadata)| {
+      println!("Processing {}", id);
       let log_dir = Path::new("target/website").join(&id);
       fs::create_dir_all(&log_dir).unwrap();
       remove_file_if_exists(log_dir.join("log.html")).unwrap();
@@ -180,28 +183,30 @@ fn rename_if_exists(src: impl AsRef<Path>, dst: impl AsRef<Path>) -> std::io::Re
     }
 }
 
-fn get_last_image_by_name(log_path: impl AsRef<Path>, name: &str) -> Option<String> {
+fn get_image_by_name_and_index(
+    log_path: impl AsRef<Path>,
+    name: &str,
+    index: Option<usize>,
+) -> Option<String> {
     let log_path = log_path.as_ref();
     if !log_path.exists() {
         return None;
     }
-    let re = Regex::new(
+    let re = Regex::new(&format!(
         "^<div class=\"item\" data-loglevel=\"2\">\
-        <a href=\"([0-9a-f]+.(?:png|jpg))\" download=\"[^\"<>]*\">\
-          ([^\"<>]*)\
-        </a>\
-      </div>$",
-    )
+        <a href=\"([0-9a-f]+.(?:png|jpg))\" download=\"{name}\">{name}</a>\
+        </div>$",
+        name = escape(name)
+    ))
     .unwrap();
-    let mut file_name: Option<String> = None;
-    for line in BufReader::new(File::open(log_path).unwrap()).lines() {
-        if let Some(captures) = re.captures(&line.unwrap()) {
-            if &captures[2] == name {
-                file_name = Some(captures[1].to_string());
-            }
-        }
+    let mut images = BufReader::new(File::open(log_path).unwrap())
+        .lines()
+        .filter_map(|line| Some(re.captures(&line.unwrap())?[1].to_string()));
+    if let Some(n) = index {
+        images.nth(n)
+    } else {
+        images.last()
     }
-    file_name
 }
 
 fn build_website() {
@@ -255,7 +260,9 @@ fn build_website() {
             .filter_map(|name| {
                 ["stable.html", "master.html"]
                     .iter()
-                    .filter_map(|log| get_last_image_by_name(&dir.join(log), name))
+                    .filter_map(|log| {
+                        get_image_by_name_and_index(&dir.join(log), name, metadata.image_index)
+                    })
                     .next()
             })
             .collect();
@@ -272,7 +279,10 @@ fn build_website() {
         });
 
         let script_url = if let Some(cap) = re_github.captures(&metadata.repository) {
-            format!("https://github.com/{}/blob/{}/{}", &cap[1], metadata.commit, metadata.script)
+            format!(
+                "https://github.com/{}/blob/{}/{}",
+                &cap[1], metadata.commit, metadata.script
+            )
         } else {
             panic!("unsupported repository");
         };
@@ -297,8 +307,7 @@ fn build_website() {
 
     examples_list.sort_by_cached_key(|item| item.name.to_string());
 
-    let examples_list_writer =
-        BufWriter::new(File::create("target/website/index.html").unwrap());
+    let examples_list_writer = BufWriter::new(File::create("target/website/index.html").unwrap());
     handlebars
         .render_to_write("examples-list", &examples_list, examples_list_writer)
         .unwrap();
@@ -307,7 +316,8 @@ fn build_website() {
     for entry in fs::read_dir("static").expect("failed to list the contents of dir 'static'") {
         let entry = entry.expect("failed to list the contents of dir 'static'");
         if entry.file_type().unwrap().is_file() {
-            fs::copy(entry.path(), target.join(entry.file_name())).expect("failed to copy {entry:?}");
+            fs::copy(entry.path(), target.join(entry.file_name()))
+                .expect("failed to copy {entry:?}");
         }
     }
 }
@@ -333,6 +343,7 @@ fn examples() -> impl Iterator<Item = (String, ExampleMetadata)> {
                 script,
                 mut tags,
                 images,
+                image_index,
             } = serde_yaml::from_reader(metadata_file).expect("failed to parse example metadata");
             tags.push("official".to_string());
             let authors = vec!["Evalf".to_string(), "other Nutils contributors".to_string()];
@@ -346,6 +357,7 @@ fn examples() -> impl Iterator<Item = (String, ExampleMetadata)> {
                 script,
                 tags,
                 images,
+                image_index,
             };
             (format!("official-{}", id), metadata)
         });
