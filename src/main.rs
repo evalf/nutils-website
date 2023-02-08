@@ -233,7 +233,8 @@ fn build_website() {
         href: String,
     }
 
-    let re_github = Regex::new(r"^https://github\.com/([^/]+/[^/]+).git$").unwrap();
+    let re_github = Regex::new(r"^(https://github\.com/[^/]+/[^/]+).git$").unwrap();
+    let re_gitlab = Regex::new(r"^(https://gitlab\.com/[^/]+/[^/]+).git$").unwrap();
 
     let reader = BufReader::new(File::open("target/examples-statuses.json").unwrap());
     let statuses: HashMap<String, ExampleStatus> =
@@ -279,12 +280,11 @@ fn build_website() {
         });
 
         let script_url = if let Some(cap) = re_github.captures(&metadata.repository) {
-            format!(
-                "https://github.com/{}/blob/{}/{}",
-                &cap[1], metadata.commit, metadata.script
-            )
+            format!("{}/blob/{}/{}", &cap[1], metadata.commit, metadata.script)
+        } else if let Some(cap) = re_gitlab.captures(&metadata.repository) {
+            format!("{}/-/blob/{}/{}", &cap[1], metadata.commit, metadata.script)
         } else {
-            panic!("unsupported repository");
+            panic!("unsupported repository: {}", metadata.repository);
         };
 
         let context = ExampleContext {
