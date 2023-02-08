@@ -272,7 +272,10 @@ fn build_website() {
         });
 
         let script_url = if let Some(cap) = re_github.captures(&metadata.repository) {
-            format!("https://github.com/{}/blob/{}/{}", &cap[1], metadata.commit, metadata.script)
+            format!(
+                "https://github.com/{}/blob/{}/{}",
+                &cap[1], metadata.commit, metadata.script
+            )
         } else {
             panic!("unsupported repository");
         };
@@ -297,8 +300,7 @@ fn build_website() {
 
     examples_list.sort_by_cached_key(|item| item.name.to_string());
 
-    let examples_list_writer =
-        BufWriter::new(File::create("target/website/index.html").unwrap());
+    let examples_list_writer = BufWriter::new(File::create("target/website/index.html").unwrap());
     handlebars
         .render_to_write("examples-list", &examples_list, examples_list_writer)
         .unwrap();
@@ -307,7 +309,8 @@ fn build_website() {
     for entry in fs::read_dir("static").expect("failed to list the contents of dir 'static'") {
         let entry = entry.expect("failed to list the contents of dir 'static'");
         if entry.file_type().unwrap().is_file() {
-            fs::copy(entry.path(), target.join(entry.file_name())).expect("failed to copy {entry:?}");
+            fs::copy(entry.path(), target.join(entry.file_name()))
+                .expect("failed to copy {entry:?}");
         }
     }
 }
