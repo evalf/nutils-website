@@ -386,6 +386,14 @@ fn examples() -> impl Iterator<Item = (String, ExampleMetadata)> {
 }
 
 fn main() {
+    for (id, metadata) in examples() {
+        assert!(
+            metadata.get_script_url().is_some(),
+            "invalid or unsupported repository in {}: {}",
+            id,
+            metadata.repository
+        )
+    }
     update_examples();
     build_website();
 }
