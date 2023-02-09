@@ -17,6 +17,31 @@ struct OfficialExampleMetadata {
     image_index: Option<usize>,
 }
 
+impl From<OfficialExampleMetadata> for ExampleMetadata {
+    fn from(item: OfficialExampleMetadata) -> ExampleMetadata {
+        let OfficialExampleMetadata {
+            name,
+            description,
+            script,
+            mut tags,
+            images,
+            image_index,
+        } = item;
+        tags.push("official".to_string());
+        ExampleMetadata {
+            name,
+            authors: vec!["Evalf".to_string(), "other Nutils contributors".to_string()],
+            description,
+            repository: "https://github.com/evalf/nutils.git".to_owned(),
+            commit: "release/7".to_owned(),
+            script,
+            tags,
+            images,
+            image_index,
+        }
+    }
+}
+
 #[derive(Deserialize)]
 struct ExampleMetadata {
     name: String,
@@ -333,29 +358,9 @@ fn examples() -> impl Iterator<Item = (String, ExampleMetadata)> {
                 .to_string();
             let metadata_file =
                 BufReader::new(File::open(path).expect("failed to open example metadata"));
-            let OfficialExampleMetadata {
-                name,
-                description,
-                script,
-                mut tags,
-                images,
-                image_index,
-            } = serde_yaml::from_reader(metadata_file).expect("failed to parse example metadata");
-            tags.push("official".to_string());
-            let authors = vec!["Evalf".to_string(), "other Nutils contributors".to_string()];
-            let repository = "https://github.com/evalf/nutils.git".to_owned();
-            let metadata = ExampleMetadata {
-                name,
-                authors,
-                description,
-                repository,
-                commit: "release/7".to_owned(),
-                script,
-                tags,
-                images,
-                image_index,
-            };
-            (format!("official-{}", id), metadata)
+            let metadata: OfficialExampleMetadata =
+                serde_yaml::from_reader(metadata_file).expect("failed to parse example metadata");
+            (format!("official-{}", id), metadata.into())
         });
     let user = Path::new("examples/user")
         .read_dir()
