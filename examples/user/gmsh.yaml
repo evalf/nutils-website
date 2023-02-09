@@ -1,0 +1,19 @@
+name: Laplace's equation on quarter annulus (gmsh)
+authors:
+  - Sai C. Divi
+  - Clemens V. Verhoosel
+description: |
+  Nutils can read a (gmsh) mesh file (with boundary tags). To demonstrate
+  it we consider a Laplace's equation on a quarter annulus. In this example
+  we create a .geo file of quarter annulus with boundary tags, generate a
+  .msh file and solve Laplace's equation by applying boundary conditions on
+  the prescribed boundary tags in nutils.
+repository: https://github.com/scdivi/nutils-gmsh.git
+commit: 29d73e18e752fcf24dbc49690032b5d7ea62df74
+script: annulus.py
+images:
+  - error.png
+  - solution.png
+tags:
+  - gmsh
+  - Laplace
