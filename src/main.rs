@@ -17,6 +17,44 @@ struct OfficialExampleMetadata {
     image_index: Option<usize>,
 }
 
+impl From<OfficialExampleMetadata> for ExampleMetadata {
+    fn from(item: OfficialExampleMetadata) -> ExampleMetadata {
+        let OfficialExampleMetadata {
+            name,
+            description,
+            script,
+            mut tags,
+            images,
+            image_index,
+        } = item;
+        tags.push("official".to_string());
+        ExampleMetadata {
+            name,
+            authors: vec!["Evalf".to_string(), "other Nutils contributors".to_string()],
+            description,
+            repository: "https://github.com/evalf/nutils.git".to_owned(),
+            commit: "release/7".to_owned(),
+            script,
+            tags,
+            images,
+            image_index,
+        }
+    }
+}
+
+impl ExampleMetadata {
+    fn get_script_url(&self) -> Option<String> {
+        let prefix = self.repository.strip_suffix(".git")?;
+        if prefix.starts_with("https://github.com/") {
+            Some(format!("{}/blob/{}/{}", prefix, self.commit, self.script))
+        } else if prefix.starts_with("https://gitlab.com/") {
+            Some(format!("{}/-/blob/{}/{}", prefix, self.commit, self.script))
+        } else {
+            None
+        }
+    }
+}
+
 #[derive(Deserialize)]
 struct ExampleMetadata {
     name: String,
@@ -233,12 +271,6 @@ fn build_website() {
         href: String,
     }
 
-    let re_github = Regex::new(r"^(https://github\.com/[^/]+/[^/]+).git$").unwrap();
-    let re_gitlab = Regex::new(r"^(https://gitlab\.com/[^/]+/[^/]+).git$").unwrap();
-
-    let reader = BufReader::new(File::open("target/examples-statuses.json").unwrap());
-    let statuses: HashMap<String, ExampleStatus> =
-        serde_json::from_reader(reader).expect("failed to read examples statuses");
     fs::create_dir_all("target/website").unwrap();
 
     let mut handlebars = Handlebars::new();
@@ -254,7 +286,6 @@ fn build_website() {
 
     for (id, metadata) in examples() {
         let dir = Path::new("target/website").join(&id);
-        let log = dir.join("stable.html");
         let images: Vec<String> = metadata
             .images
             .iter()
@@ -279,14 +310,6 @@ fn build_website() {
             href: format!("{}/", id),
         });
 
-        let script_url = if let Some(cap) = re_github.captures(&metadata.repository) {
-            format!("{}/blob/{}/{}", &cap[1], metadata.commit, metadata.script)
-        } else if let Some(cap) = re_gitlab.captures(&metadata.repository) {
-            format!("{}/-/blob/{}/{}", &cap[1], metadata.commit, metadata.script)
-        } else {
-            panic!("unsupported repository: {}", metadata.repository);
-        };
-
         let context = ExampleContext {
             name: metadata.name.to_string(),
             authors: comma_and_join(&metadata.authors),
@@ -296,7 +319,7 @@ fn build_website() {
             script: metadata.script.to_string(),
             repository: metadata.repository.to_string(),
             commit: metadata.commit.to_string(),
-            script_url,
+            script_url: metadata.get_script_url().expect("unsupported repository"),
         };
 
         let example_writer = BufWriter::new(File::create(dir.join("index.html")).unwrap());
@@ -337,29 +360,9 @@ fn examples() -> impl Iterator<Item = (String, ExampleMetadata)> {
                 .to_string();
             let metadata_file =
                 BufReader::new(File::open(path).expect("failed to open example metadata"));
-            let OfficialExampleMetadata {
-                name,
-                description,
-                script,
-                mut tags,
-                images,
-                image_index,
-            } = serde_yaml::from_reader(metadata_file).expect("failed to parse example metadata");
-            tags.push("official".to_string());
-            let authors = vec!["Evalf".to_string(), "other Nutils contributors".to_string()];
-            let repository = "https://github.com/evalf/nutils.git".to_owned();
-            let metadata = ExampleMetadata {
-                name,
-                authors,
-                description,
-                repository,
-                commit: "release/7".to_owned(),
-                script,
-                tags,
-                images,
-                image_index,
-            };
-            (format!("official-{}", id), metadata)
+            let metadata: OfficialExampleMetadata =
+                serde_yaml::from_reader(metadata_file).expect("failed to parse example metadata");
+            (format!("official-{}", id), metadata.into())
         });
     let user = Path::new("examples/user")
         .read_dir()
@@ -383,6 +386,14 @@ fn examples() -> impl Iterator<Item = (String, ExampleMetadata)> {
 }
 
 fn main() {
+    for (id, metadata) in examples() {
+        assert!(
+            metadata.get_script_url().is_some(),
+            "invalid or unsupported repository in {}: {}",
+            id,
+            metadata.repository
+        )
+    }
     update_examples();
     build_website();
 }
