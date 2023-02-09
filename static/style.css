@@ -1,25 +1,62 @@
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:600');
+
 html {
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
-  color: hsl(0, 0%, 20%);
 }
 
 body {
-  margin: 25px;
+  margin: 0px;;
   padding: 0px;
+  color: hsl(0, 0%, 20%);
+  background: hsl(0, 0%, 90%);
 }
 
-body {
+#header {
+  font-family: "Comfortaa", sans-serif;
+  font-size: 20px;
+  color: hsl(0, 0%, 75%);
+  padding: 25px 50px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  background: white;
+}
+
+#header .nutils {
+  display: flex;
+  gap: 10px;
+}
+
+#header .logo {
+  width: 25px;
+}
+
+#header .logo path {
+  fill: hsl(0, 0%, 75%);
+}
+
+#header a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+#header :last-child {
+  color: hsl(0, 0%, 50%);
+}
+
+#examples {
   display: grid;
   grid-template-columns: repeat(auto-fill, 280px);
   gap: 20px;
-  background: hsl(0, 0%, 90%);
   justify-content: center;
+  padding: 20px;
 }
 
-body .example {
+#examples .example {
   display: grid;
-  grid-template-columns: 280px;
+  grid-template-columns: 100%;
   grid-template-rows: 50px 210px 70px;
   background: hsl(0, 0%, 100%);
   border-radius: 15px;
@@ -27,14 +64,16 @@ body .example {
   color: inherit;
 }
 
-body .example .thumbnail {
+#examples .example .thumbnail {
   width: 280px;
   height: 210px;
   object-fit: contain;
   display: block;
+  justify-self: center;
 }
 
-body .example .name {
+#examples .example .name {
+  font-family: 'Comfortaa', sans-serif;
   display: grid;
   align-items: center;
   padding: 0px 10px;
@@ -43,7 +82,7 @@ body .example .name {
   text-align: center;
 }
 
-body .example .tags {
+#examples .example .tags {
   font-family: 'Source Sans Pro', monospace;
   font-size: 75%;
   background: hsl(0, 0%, 30%);
@@ -53,12 +92,82 @@ body .example .tags {
   display: flex;
   flex-wrap: wrap;
   align-content: start;
+  gap: 8px;
 }
 
-body .example .tags div {
+#examples .example .tags > div {
   white-space: pre;
-  border: 1px solid hsl(0, 0%, 100%);
-  padding: 2px 4px;
-  margin: 2px;
+  padding: 2px 6px;
+  background: hsl(0, 0%, 40%);
   border-radius: 2px;
+}
+
+#example {
+  padding-bottom: 50px;
+  margin-top: 25px;
+}
+
+#example .authors,
+#example .description,
+#example .status {
+  max-width: 640px;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+#example .authors {
+  font-style: italic;
+  margin-bottom: 25px;
+}
+
+#example .images-strip {
+  width: 100%;
+  height: 480px;
+  max-height: min(50vh, 75vw);
+  overflow-x: auto;
+  overflow-y: clip;
+  background: hsl(0, 0%, 100%);
+  display: flex;
+}
+
+#example .images-strip img {
+  height: 100%;
+}
+
+#example .status {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 1ex;
+  font-family: 'Source Sans Pro', monospace;
+  white-space: pre;
+  font-size: 75%;
+}
+
+#example .status .no {
+  text-decoration: line-through;
+}
+
+@media screen and (max-width: 620px) {
+  #header {
+    padding: 25px;
+  }
+
+  #examples {
+    grid-template-columns: repeat(auto-fill, 100%);
+    gap: 0px;
+    padding: 0px;
+  }
+
+  #examples .example,
+  #examples .example .name,
+  #examples .example .tags {
+    border-radius: 0px;
+  }
+
+  #example .authors,
+  #example .description,
+  #example .status {
+    margin-left: 25px;
+    margin-right: 25px;
+  }
 }
