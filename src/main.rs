@@ -42,6 +42,19 @@ impl From<OfficialExampleMetadata> for ExampleMetadata {
     }
 }
 
+impl ExampleMetadata {
+    fn get_script_url(&self) -> Option<String> {
+        let prefix = self.repository.strip_suffix(".git")?;
+        if prefix.starts_with("https://github.com/") {
+            Some(format!("{}/blob/{}/{}", prefix, self.commit, self.script))
+        } else if prefix.starts_with("https://gitlab.com/") {
+            Some(format!("{}/-/blob/{}/{}", prefix, self.commit, self.script))
+        } else {
+            None
+        }
+    }
+}
+
 #[derive(Deserialize)]
 struct ExampleMetadata {
     name: String,
@@ -258,9 +271,6 @@ fn build_website() {
         href: String,
     }
 
-    let re_github = Regex::new(r"^(https://github\.com/[^/]+/[^/]+).git$").unwrap();
-    let re_gitlab = Regex::new(r"^(https://gitlab\.com/[^/]+/[^/]+).git$").unwrap();
-
     fs::create_dir_all("target/website").unwrap();
 
     let mut handlebars = Handlebars::new();
@@ -300,14 +310,6 @@ fn build_website() {
             href: format!("{}/", id),
         });
 
-        let script_url = if let Some(cap) = re_github.captures(&metadata.repository) {
-            format!("{}/blob/{}/{}", &cap[1], metadata.commit, metadata.script)
-        } else if let Some(cap) = re_gitlab.captures(&metadata.repository) {
-            format!("{}/-/blob/{}/{}", &cap[1], metadata.commit, metadata.script)
-        } else {
-            panic!("unsupported repository: {}", metadata.repository);
-        };
-
         let context = ExampleContext {
             name: metadata.name.to_string(),
             authors: comma_and_join(&metadata.authors),
@@ -317,7 +319,7 @@ fn build_website() {
             script: metadata.script.to_string(),
             repository: metadata.repository.to_string(),
             commit: metadata.commit.to_string(),
-            script_url,
+            script_url: metadata.get_script_url().expect("unsupported repository"),
         };
 
         let example_writer = BufWriter::new(File::create(dir.join("index.html")).unwrap());
