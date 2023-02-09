@@ -140,7 +140,7 @@ fn run_script_in_container(
             "--mount=type=bind,destination=/log,source=",
             log_dir.as_ref()
         ],
-        format!("ghcr.io/evalf/nutils:{}", image),
+        format!("ghcr.io/evalf/nutils:{image}"),
         &metadata.script
     )
     .is_ok()
@@ -156,7 +156,7 @@ fn update_examples() {
 
     let statuses: HashMap<String, ExampleStatus> = examples()
     .map(|(id, metadata)| {
-      println!("Processing {}", id);
+      println!("Processing {id}");
       let log_dir = Path::new("target/website").join(&id);
       fs::create_dir_all(&log_dir).unwrap();
       remove_file_if_exists(log_dir.join("log.html")).unwrap();
@@ -168,9 +168,9 @@ fn update_examples() {
       {
         return (id, ExampleStatus::FetchFailed);
       }
-      let stable = run_script_in_container(&metadata, "7", &git_dir, &log_dir);
+      let stable = run_script_in_container(&metadata, "7", git_dir, &log_dir);
       rename_if_exists(log_dir.join("log.html"), log_dir.join("stable.html")).unwrap();
-      let master = run_script_in_container(&metadata, "latest", &git_dir, &log_dir);
+      let master = run_script_in_container(&metadata, "latest", git_dir, &log_dir);
       rename_if_exists(log_dir.join("log.html"), log_dir.join("master.html")).unwrap();
 
       (id, ExampleStatus::RunsOn { stable, master })
@@ -184,7 +184,7 @@ fn render_markdown(markdown: &str) -> String {
     use pulldown_cmark::html::push_html;
     use pulldown_cmark::Parser;
     let mut html = String::with_capacity(markdown.len() * 2 / 3);
-    let parser = Parser::new(&markdown);
+    let parser = Parser::new(markdown);
     push_html(&mut html, parser);
     html
 }
@@ -293,7 +293,7 @@ fn build_website() {
                 ["stable.html", "master.html"]
                     .iter()
                     .filter_map(|log| {
-                        get_image_by_name_and_index(&dir.join(log), name, metadata.image_index)
+                        get_image_by_name_and_index(dir.join(log), name, metadata.image_index)
                     })
                     .next()
             })
@@ -301,20 +301,16 @@ fn build_website() {
 
         examples_list.push(ExampleListContext {
             name: metadata.name.to_string(),
-            thumbnail: if let Some(image) = images.iter().last() {
-                Some(format!("{}/{}", id, image))
-            } else {
-                None
-            },
+            thumbnail: images.iter().last().map(|image| format!("{id}/{image}")),
             tags: metadata.tags.to_vec(),
-            href: format!("{}/", id),
+            href: format!("{id}/"),
         });
 
         let context = ExampleContext {
             name: metadata.name.to_string(),
             authors: comma_and_join(&metadata.authors),
             description: render_markdown(&metadata.description),
-            images: images,
+            images,
             tags: metadata.tags.to_vec(),
             script: metadata.script.to_string(),
             repository: metadata.repository.to_string(),
@@ -362,7 +358,7 @@ fn examples() -> impl Iterator<Item = (String, ExampleMetadata)> {
                 BufReader::new(File::open(path).expect("failed to open example metadata"));
             let metadata: OfficialExampleMetadata =
                 serde_yaml::from_reader(metadata_file).expect("failed to parse example metadata");
-            (format!("official-{}", id), metadata.into())
+            (format!("official-{id}"), metadata.into())
         });
     let user = Path::new("examples/user")
         .read_dir()
@@ -380,7 +376,7 @@ fn examples() -> impl Iterator<Item = (String, ExampleMetadata)> {
                 BufReader::new(File::open(path).expect("failed to open example metadata"));
             let metadata: ExampleMetadata =
                 serde_yaml::from_reader(metadata_file).expect("failed to parse example metadata");
-            (format!("user-{}", id), metadata)
+            (format!("user-{id}"), metadata)
         });
     official.chain(user)
 }
