@@ -236,9 +236,6 @@ fn build_website() {
     let re_github = Regex::new(r"^(https://github\.com/[^/]+/[^/]+).git$").unwrap();
     let re_gitlab = Regex::new(r"^(https://gitlab\.com/[^/]+/[^/]+).git$").unwrap();
 
-    let reader = BufReader::new(File::open("target/examples-statuses.json").unwrap());
-    let statuses: HashMap<String, ExampleStatus> =
-        serde_json::from_reader(reader).expect("failed to read examples statuses");
     fs::create_dir_all("target/website").unwrap();
 
     let mut handlebars = Handlebars::new();
@@ -254,7 +251,6 @@ fn build_website() {
 
     for (id, metadata) in examples() {
         let dir = Path::new("target/website").join(&id);
-        let log = dir.join("stable.html");
         let images: Vec<String> = metadata
             .images
             .iter()
