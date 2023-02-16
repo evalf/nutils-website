@@ -171,3 +171,13 @@ body {
     margin-right: 25px;
   }
 }
+
+code {
+  font-size: 85%;
+  color: DarkOliveGreen;
+}
+
+pre code {
+  display: block;
+  padding-left: 2em;
+}
