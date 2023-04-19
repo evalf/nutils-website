@@ -113,11 +113,12 @@ body {
   max-width: 640px;
   margin-left: 50px;
   margin-right: 50px;
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 #example .authors {
   font-style: italic;
-  margin-bottom: 25px;
 }
 
 #example .images-strip {
@@ -134,17 +135,18 @@ body {
   height: 100%;
 }
 
-#example .status {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  column-gap: 1ex;
-  font-family: 'Source Sans Pro', monospace;
-  white-space: pre;
-  font-size: 75%;
-}
-
 #example .status .no {
   text-decoration: line-through;
+}
+
+span.tag {
+  font-family: 'Source Sans Pro', monospace;
+  font-size: 75%;
+  background: hsl(0, 0%, 50%);
+  color: hsl(0, 0%, 100%);
+  border-radius: 15px;
+  padding: 5px;
+  margin-right: 5px;
 }
 
 @media screen and (max-width: 620px) {
@@ -170,4 +172,52 @@ body {
     margin-left: 25px;
     margin-right: 25px;
   }
+}
+
+code {
+  font-size: 85%;
+  color: DarkOliveGreen;
+}
+
+pre code {
+  display: block;
+  padding-left: 2em;
+}
+
+a {
+    text-decoration: none;
+    color: #20609f;
+}
+
+a.script {
+    background: #f27935;
+}
+
+a.log {
+    background: #20609f;
+}
+
+a.btn {
+  text-decoration: none;
+  border-radius: 30px;
+  padding: 12px 5px 12px 12px;
+  color: #fff;
+  text-transform: uppercase;
+  font-family: sans-serif;
+  font-weight: bold;
+  position: relative;
+  transition: all 0.3s;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1.45;
+}
+a.btn .round {
+  border-radius: 100%;
+  padding: 9px 12px;
+  background-color: #fff2;
+  transition: all 0.3s;
+}
+
+a.btn:hover .round {
+  background: none;
 }

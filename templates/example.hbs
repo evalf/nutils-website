@@ -25,20 +25,21 @@
       <div>{{name}}</div>
     </div>
     <div id="example">
-      <div class="authors">By {{authors}}.</div>
+      <div class="status">
+        <p>
+        <a href="{{script_url}}" rel="external" class="btn script">view script <span class="round">&gt;</span></a>
+        <a href="log.html" class="btn log">view log <span class="round">&gt;</span></a>
+        </p>
+      </div>
       <div class="images-strip">
         {{~#each images~}}
           <img src="{{this}}" loading="lazy"/>
         {{~/each~}}
       </div>
-      <div class="description">{{{description}}}</div>
-      <div class="status">
-        <div>script:</div><div><a href="{{script_url}}" rel="external">{{script}}</a></div>
-        <div>repository:</div><div>{{repository}}</div>
-        <div>commit:</div><div>{{commit}}</div>
-        <div>tags:</div><div>{{#each tags}}<div>{{this}}</div>{{/each}}</div>
-        <div>logs:</div><div><a href="stable.html">stable</a>, <a href="master.html">master</a></div>
-      </div>
+      <div class="description">
+        <p><i>By {{authors}}</i></p>
+        <p>{{#each tags}}<span class="tag">{{this}}</span>{{/each}}</p>
+      {{{description}}}</div>
     </div>
   </body>
 </html>
